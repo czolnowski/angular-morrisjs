@@ -1,0 +1,47 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>angular-morrisjs</title>
+    <meta name="description" content="Simple directives wrapping morrisjs visualizations.">
+    <meta name="viewport" content="width=device-width">
+    
+    <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/morrisjs/morris.css">
+    <!-- endinject -->
+
+</head>
+<body>
+    <div ng-controller="MainCtrl as ctrl">
+        <bar-chart data="ctrl.bar().data"
+                   xkey="{{ ctrl.bar().xkey }}"
+                   ykeys="ctrl.bar().ykeys"
+                   labels="ctrl.bar().labels"
+                   stacked="false"
+                   hideHover="auto"
+                   hoverCallback="ctrl.bar().hoverCallback"
+                   resize="true"></bar-chart>
+    </div>
+
+    <!-- bower:js -->
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/raphael/raphael.js"></script>
+    <script src="/bower_components/mocha/mocha.js"></script>
+    <script src="/bower_components/morrisjs/morris.js"></script>
+    <!-- endinject -->
+
+    <script src="angular-morrisjs.js"></script>
+    <script src="scripts/app.js"></script>
+
+    <script>
+        angular.element(document).ready(function() {
+            angular.bootstrap(document, ['exampleApp']);
+        });
+    </script>
+</body>
+</html>

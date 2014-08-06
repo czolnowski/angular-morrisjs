@@ -1,0 +1,32 @@
+{
+    "name": "angular-morrisjs",
+    "version": "0.1.0",
+    "description": "Simple directives wrapping morrisjs visualizations.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/czolnowski/angular-morrisjs"
+    },
+    "keywords": [
+        "angular",
+        "angularjs",
+        "morris",
+        "morrisjs",
+        "charts",
+        "graph"
+    ],
+    "author": "Connor Leech",
+    "license": "CC-BY",
+    "bugs": {
+        "url": "https://github.com/czolnowski/angular-morrisjs/issues"
+    },
+    "homepage": "http://mindweb.pl",
+    "devDependencies": {
+        "gulp": "^3.8.6",
+        "gulp-connect": "^2.0.6",
+        "gulp-inject": "^1.0.1",
+        "gulp-uglify": "*",
+        "gulp-rename": "*",
+        "gulp-notify": "*",
+        "main-bower-files": "^1.0.2"
+    }
+}

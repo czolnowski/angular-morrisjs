@@ -1,0 +1,32 @@
+{
+    "name": "angular-morrisjs",
+    "version": "0.1.0",
+    "homepage": "https://github.com/czolnowski/angular-morrisjs",
+    "main": "dist/angular-morisjs.min.js",
+    "authors": [
+        "Marcin Czołnowski <marcin@czolnowski.net>"
+    ],
+    "description": "Simple directives wrapping morrisjs visualizations.",
+    "keywords": [
+        "angular",
+        "angularjs",
+        "morris",
+        "morrisjs",
+        "charts",
+        "graph"
+    ],
+    "ignore": [
+        "./index.html",
+        "./Gulpfile.js",
+        "./package.json",
+        ".gitignore",
+        "bower_components/",
+        "node_modules/",
+        "scripts/"
+    ],
+    "license": "CC-BY",
+    "dependencies": {
+        "angular": "~1.2.21",
+        "morrisjs": "~0.5.1"
+    }
+}
