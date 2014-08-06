@@ -14,10 +14,10 @@ angular.module('application', ['angular-morrisjs']);
 
 And add directive with visualization:
 ```
-<bar-chart data="ctrl.bar().data"
-           xkey="{{ ctrl.bar().xkey }}"
-           ykeys="ctrl.bar().ykeys"
-           labels="ctrl.bar().labels"></bar-chart>
+<bar-chart data="data"
+           xkey="label"
+           ykeys="ykeys"
+           labels="labels"></bar-chart>
 ```
 
 ## Development
