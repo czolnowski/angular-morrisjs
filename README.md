@@ -21,9 +21,6 @@ And add directive with visualization:
 ```
 
 ## Development
-* install node modules
-    ```npm install```
-* install gulp globally
-    ```npm install -g gulp```
-* run gulp
-    ```gulp```
+* install node modules ```npm install```
+* install gulp globally ```npm install -g gulp```
+* run gulp ```gulp```
