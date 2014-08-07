@@ -109,7 +109,7 @@
                                 lineWidth: attribiutes.lineWidth,
 
                                 gridTextColor: attribiutes.gridTextColor,
-                                gridTextSize: attribiutes.gridtextsize,
+                                gridTextSize: attribiutes.gridTextSize,
                                 gridTextFamily: attribiutes.gridTextFamily,
                                 gridTextWeight: attribiutes.gridTextWeight,
                                 fillOpacity: attribiutes.fillOpacity,
