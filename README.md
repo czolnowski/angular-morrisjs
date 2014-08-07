@@ -18,6 +18,18 @@ And add directive with visualization:
            xkey="label"
            ykeys="ykeys"
            labels="labels"></bar-chart>
+
+<line-chart data="data"
+            xkey="label"
+            ykeys="ykeys"
+            labels="labels"></line-chart>
+
+<area-chart data="data"
+            xkey="label"
+            ykeys="ykeys"
+            labels="labels"></area-chart>
+
+<donut-chart data="data"></donut-chart>
 ```
 
 ## Development
