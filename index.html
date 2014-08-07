@@ -44,6 +44,14 @@
                    resize="true"
                    grid-text-size="25"
                    grid-text-color="green"></line-chart>
+
+        <area-chart data="ctrl.bar().data"
+                    xkey="{{ ctrl.bar().xkey }}"
+                    ykeys="ctrl.bar().ykeys"
+                    labels="ctrl.bar().labels"
+                    behave-like-line="false"></area-chart>
+
+        <donut-chart data="ctrl.bar().donutData"></donut-chart>
     </div>
 
     <!-- bower:js -->

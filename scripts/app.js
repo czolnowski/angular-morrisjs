@@ -15,6 +15,15 @@
                 { y: '2011', a: 75,  b: 65 },
                 { y: '2012', a: 100, b: 90 }
             ],
+            donutData: [
+                { label: '2006', value: 100, b: 90 },
+                { label: '2007', value: 75,  b: 65 },
+                { label: '2008', value: 50,  b: 40 },
+                { label: '2009', value: 75,  b: 65 },
+                { label: '2010', value: 50,  b: 40 },
+                { label: '2011', value: 75,  b: 65 },
+                { label: '2012', value: 100, b: 90 }
+            ],
             xkey: 'y',
             ykeys: ['a', 'b'],
             labels: ['Series A', 'Series B'],

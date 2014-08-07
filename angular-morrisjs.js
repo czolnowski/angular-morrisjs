@@ -34,7 +34,136 @@
             {
                 return {
                     b: Morris.Bar,
-                    l: Morris.Line
+                    l: Morris.Line,
+                    a: Morris.Area,
+                    d: Morris.Donut
+                };
+            }
+        ]
+    );
+
+    app.service(
+        'MorrisOptionsParser',
+        [
+            "$parse",
+            function ($parse)
+            {
+                this.parseValues = function (value, possibleValues, skipBoolTransform)
+                {
+                    if (!ng.isDefined(possibleValues)) {
+                        possibleValues = [];
+                    }
+
+                    if (!ng.isDefined(value)) {
+                        return undefined;
+                    }
+
+                    if (possibleValues.indexOf(value) !== -1) {
+                        return value;
+                    }
+
+                    if (skipBoolTransform !== true) {
+                        if (value === "true") {
+                            return true;
+                        } else if (value === "false") {
+                            return false;
+                        }
+                    }
+
+                    return undefined;
+                };
+
+                this.getBasicOptions = function (element, attribiutes, $scope)
+                {
+                    return {
+                        element: element,
+                        data: $parse(attribiutes.data)($scope),
+                        additional: {
+                            resize: this.parseValues(attribiutes.resize)
+                        }
+                    };
+                };
+
+                this.getValuesOptions = function (attribiutes, $scope)
+                {
+                    return {
+                        xkey: attribiutes.xkey,
+                        ykeys: $parse(attribiutes.ykeys)($scope),
+                        labels: $parse(attribiutes.labels)($scope),
+                        hideHover: this.parseValues(attribiutes.hideHover, ['always', 'auto']),
+                        asFunctions: {
+                            hoverCallback: $parse(attribiutes.hoverCallback)($scope)
+                        }
+                    }
+                };
+
+                this.getGridOptions = function (attribiutes)
+                {
+                    return {
+                        axes: this.parseValues(attribiutes.axes),
+                        grid: this.parseValues(attribiutes.grid),
+                        additional: {
+                            gridTextColor: attribiutes.gridTextColor,
+                            gridTextSize: attribiutes.gridTextSize,
+                            gridTextFamily: attribiutes.gridTextFamily,
+                            gridTextWeight: attribiutes.gridTextWeight
+                        }
+                    };
+                };
+
+                this.getLinesOptions = function (attribiutes, $scope)
+                {
+                    return {
+                        lineColors: $parse(attribiutes.lineColors)($scope),
+                        lineWidth: attribiutes.lineWidth,
+                        pointSize: attribiutes.pointSize,
+                        pointFillColors: $parse(attribiutes.pointFillColors)($scope),
+                        pointStrokeColors: attribiutes.pointStrokeColors,
+                        ymax: attribiutes.ymax,
+                        ymin: attribiutes.ymin,
+                        smooth: parseValues(attribiutes.smooth),
+                        parseTime: parseValues(attribiutes.parseTime),
+                        postUnits: attribiutes.postUnits,
+                        preUnits: attribiutes.preUnits,
+                        xLabels: attribiutes.xLabels,
+                        xLabelAngle: attribiutes.xLabelAngle,
+
+                        goals: $parse(attribiutes.goals)($scope),
+                        events: $parse(attribiutes.events)($scope),
+
+                        additional: {
+                            fillOpacity: attribiutes.fillOpacity,
+
+                            goalStrokeWidth: attribiutes.goalStrokeWidth,
+                            goalLineColors: attribiutes.goalLineColors,
+
+                            eventStrokeWidth: attribiutes.eventStrokeWidth,
+                            eventLineColors: attribiutes.eventLineColors,
+
+                            continuousLine: parseValues(attribiutes.continuousLine)
+                        },
+                        asFunctions: {
+                            dateFormat: $parse(attribiutes.dateFormat)($scope),
+                            xLabelFormat: $parse(attribiutes.xLabelFormat)($scope)
+                        }
+                    };
+                };
+
+                this.parse = function (params)
+                {
+                    ng.forEach(params.asFunctions, function (value, key) {
+                        if (ng.isFunction(value)) {
+                            params[key] = value;
+                        }
+                    });
+
+                    ng.forEach(params.additional, function (value, key) {
+                        if (ng.isDefined(value)) {
+                            params[key] = value;
+                        }
+                    });
+
+                    return params;
                 };
             }
         ]
@@ -43,52 +172,28 @@
     app.directive(
         'barChart',
         [
-            "$parse", "Morris",
-            function ($parse, M)
+            "$parse", "Morris", "MorrisOptionsParser",
+            function ($parse, M, MorrisOptionsParser)
             {
                 return {
                     restrict: 'AE',
                     template: '<div></div>',
                     replace: true,
                     link: function($scope, element, attribiutes) {
-                        var additional = {
-                                gridTextColor: attribiutes.gridTextColor,
-                                gridTextSize: attribiutes.gridTextSize,
-                                gridTextFamily: attribiutes.gridTextFamily,
-                                gridTextWeight: attribiutes.gridTextWeight,
-                                resize: parseValues(attribiutes.resize)
-                            },
-                            asFunctions = {
-                                hoverCallback: $parse(attribiutes.hoverCallback)($scope)
-                            },
-                            params = {
-                                element: element,
-                                data: $parse(attribiutes.data)($scope),
-                                xkey: attribiutes.xkey,
-                                ykeys: $parse(attribiutes.ykeys)($scope),
-                                labels: $parse(attribiutes.labels)($scope),
-                                barColors: $parse(attribiutes.barColors)($scope),
-                                stacked: parseValues(attribiutes.stacked),
-                                hideHover: parseValues(attribiutes.hideHover, ['always', 'auto']),
-                                axes: parseValues(attribiutes.axes),
-                                grid: parseValues(attribiutes.grid)
-                            };
+                        var params = {
+                            barColors: $parse(attribiutes.barColors)($scope),
+                            stacked: MorrisOptionsParser.parseValues(attribiutes.stacked)
+                        };
 
-                        ng.forEach(asFunctions, function (value, key) {
-                            if (ng.isFunction(value)) {
-                                params[key] = value;
-                            }
-                        });
+                        ng.extend(
+                            params,
+                            MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope),
+                            MorrisOptionsParser.getValuesOptions(attribiutes, $scope),
+                            MorrisOptionsParser.getGridOptions(attribiutes)
+                        );
 
-                        ng.forEach(additional, function (value, key) {
-                            if (ng.isDefined(value)) {
-                                params[key] = value;
-                            }
-                        });
-
-                        M.b(params);
+                        M.b(MorrisOptionsParser.parse(params));
                     }
-
                 };
             }
         ]
@@ -97,79 +202,87 @@
     app.directive(
         'lineChart',
         [
-            "$parse", "Morris",
-            function ($parse, M)
+            "Morris", "MorrisOptionsParser",
+            function (M, MorrisOptionsParser)
             {
                 return {
                     restrict: 'AE',
                     template: '<div></div>',
                     replace: true,
                     link: function($scope, element, attribiutes) {
-                        var additional = {
-                                lineWidth: attribiutes.lineWidth,
+                        var params = {};
 
-                                gridTextColor: attribiutes.gridTextColor,
-                                gridTextSize: attribiutes.gridTextSize,
-                                gridTextFamily: attribiutes.gridTextFamily,
-                                gridTextWeight: attribiutes.gridTextWeight,
-                                fillOpacity: attribiutes.fillOpacity,
-                                resize: parseValues(attribiutes.resize),
+                        ng.extend(
+                            params,
+                            MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope),
+                            MorrisOptionsParser.getValuesOptions(attribiutes, $scope),
+                            MorrisOptionsParser.getGridOptions(attribiutes),
+                            MorrisOptionsParser.getLinesOptions(attribiutes, $scope)
+                        );
 
-                                goalStrokeWidth: attribiutes.goalStrokeWidth,
-                                goalLineColors: attribiutes.goalLineColors,
+                        M.l(MorrisOptionsParser.parse(params));
+                    }
 
-                                eventStrokeWidth: attribiutes.eventStrokeWidth,
-                                eventLineColors: attribiutes.eventLineColors,
+                };
+            }
+        ]
+    );
 
-                                continuousLine: parseValues(attribiutes.continuousLine)
-                            },
-                            asFunctions = {
-                                hoverCallback: $parse(attribiutes.hoverCallback)($scope),
-                                dateFormat: $parse(attribiutes.dateFormat)($scope),
-                                xLabelFormat: $parse(attribiutes.xLabelFormat)($scope)
-                            },
-                            params = {
-                                element: element,
-                                data: $parse(attribiutes.data)($scope),
-                                xkey: attribiutes.xkey,
-                                ykeys: $parse(attribiutes.ykeys)($scope),
-                                labels: $parse(attribiutes.labels)($scope),
+    app.directive(
+        'areaChart',
+        [
+            "Morris", "MorrisOptionsParser",
+            function (M, MorrisOptionsParser)
+            {
+                return {
+                    restrict: 'AE',
+                    template: '<div></div>',
+                    replace: true,
+                    link: function($scope, element, attribiutes) {
+                        var params = {
+                            behaveLikeLine: parseValues(attribiutes.behaveLikeLine)
+                        };
 
-                                lineColors: $parse(attribiutes.lineColors)($scope),
-                                lineWidth: attribiutes.lineWidth,
-                                pointSize: attribiutes.pointSize,
-                                pointFillColors: $parse(attribiutes.pointFillColors)($scope),
-                                pointStrokeColors: attribiutes.pointStrokeColors,
-                                ymax: attribiutes.ymax,
-                                ymin: attribiutes.ymin,
-                                smooth: parseValues(attribiutes.smooth),
-                                hideHover: parseValues(attribiutes.hidehover, ['always', 'auto']),
-                                parseTime: parseValues(attribiutes.parseTime),
-                                postUnits: attribiutes.postUnits,
-                                preUnits: attribiutes.preUnits,
-                                xLabels: attribiutes.xLabels,
-                                xLabelAngle: attribiutes.xLabelAngle,
+                        ng.extend(
+                            params,
+                            MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope),
+                            MorrisOptionsParser.getValuesOptions(attribiutes, $scope),
+                            MorrisOptionsParser.getGridOptions(attribiutes),
+                            MorrisOptionsParser.getLinesOptions(attribiutes, $scope)
+                        );
 
-                                goals: $parse(attribiutes.goals)($scope),
-                                events: $parse(attribiutes.events)($scope),
+                        M.a(MorrisOptionsParser.parse(params));
+                    }
 
-                                axes: parseValues(attribiutes.axes),
-                                grid: parseValues(attribiutes.grid)
-                            };
+                };
+            }
+        ]
+    );
 
-                        ng.forEach(asFunctions, function (value, key) {
-                            if (ng.isFunction(value)) {
-                                params[key] = value;
+    app.directive(
+        'donutChart',
+        [
+            "$parse", "Morris", "MorrisOptionsParser",
+            function ($parse, M, MorrisOptionsParser)
+            {
+                return {
+                    restrict: 'AE',
+                    template: '<div></div>',
+                    replace: true,
+                    link: function($scope, element, attribiutes) {
+                        var params = {
+                            colors: $parse(attribiutes.colors)($scope),
+                            asFunctions: {
+                                formatter: $parse(attribiutes.formatter)($scope)
                             }
-                        });
+                        };
 
-                        ng.forEach(additional, function (value, key) {
-                            if (ng.isDefined(value)) {
-                                params[key] = value;
-                            }
-                        });
+                        ng.extend(
+                            params,
+                            MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope)
+                        );
 
-                        M.l(params);
+                        M.d(MorrisOptionsParser.parse(params));
                     }
 
                 };
