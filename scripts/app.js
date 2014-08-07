@@ -20,7 +20,8 @@
             labels: ['Series A', 'Series B'],
             hoverCallback: function (index, options, content, row) {
                 return "<div>" + JSON.stringify(row) + "</div>";
-            }
+            },
+            colors: ['#00ff00', '#ff0000']
         };
     };
 

@@ -50,7 +50,7 @@
                     template: '<div></div>',
                     replace: true,
                     link: function($scope, element, attribiutes) {
-                        var hoverCallback = $parse(attribiutes.hovercallback)($scope),
+                        var hoverCallback = $parse(attribiutes.hoverCallback)($scope),
                             additional = {
                                 gridTextColor: attribiutes.gridTextColor,
                                 gridTextSize: attribiutes.gridTextSize,
@@ -66,7 +66,7 @@
                                 labels: $parse(attribiutes.labels)($scope),
                                 barColors: $parse(attribiutes.barColors)($scope),
                                 stacked: parseValues(attribiutes.stacked),
-                                hideHover: parseValues(attribiutes.hidehover, ['always', 'auto']),
+                                hideHover: parseValues(attribiutes.hideHover, ['always', 'auto']),
                                 axes: parseValues(attribiutes.axes),
                                 grid: parseValues(attribiutes.grid)
                             };
