@@ -28,6 +28,22 @@
                    resize="true"
                    grid-text-size="25"
                    grid-text-color="green"></bar-chart>
+
+        <line-chart data="ctrl.bar().data"
+                   xkey="{{ ctrl.bar().xkey }}"
+                   ykeys="ctrl.bar().ykeys"
+                   labels="ctrl.bar().labels"
+                   line-colors="ctrl.bar().colors"
+                   point-fill-colors="ctrl.bar().pointFillColors"
+                   line-width="10"
+                   smooth="false"
+                   hide-hover="auto"
+                   x-label-angle="50"
+                   goals="ctrl.bar().goals"
+                   events="ctrl.bar().events"
+                   resize="true"
+                   grid-text-size="25"
+                   grid-text-color="green"></line-chart>
     </div>
 
     <!-- bower:js -->

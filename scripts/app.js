@@ -21,7 +21,10 @@
             hoverCallback: function (index, options, content, row) {
                 return "<div>" + JSON.stringify(row) + "</div>";
             },
-            colors: ['#00ff00', '#ff0000']
+            colors: ['#00ff00', '#ff0000'],
+            pointFillColors: ['#ff0000', '#00ff00'],
+            goals: [10, 52],
+            events: ['2011', '2009', '2007']
         };
     };
 

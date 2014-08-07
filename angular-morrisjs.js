@@ -33,7 +33,8 @@
             function ()
             {
                 return {
-                    b: Morris.Bar
+                    b: Morris.Bar,
+                    l: Morris.Line
                 };
             }
         ]
@@ -50,13 +51,15 @@
                     template: '<div></div>',
                     replace: true,
                     link: function($scope, element, attribiutes) {
-                        var hoverCallback = $parse(attribiutes.hoverCallback)($scope),
-                            additional = {
+                        var additional = {
                                 gridTextColor: attribiutes.gridTextColor,
                                 gridTextSize: attribiutes.gridTextSize,
                                 gridTextFamily: attribiutes.gridTextFamily,
                                 gridTextWeight: attribiutes.gridTextWeight,
                                 resize: parseValues(attribiutes.resize)
+                            },
+                            asFunctions = {
+                                hoverCallback: $parse(attribiutes.hoverCallback)($scope)
                             },
                             params = {
                                 element: element,
@@ -71,9 +74,11 @@
                                 grid: parseValues(attribiutes.grid)
                             };
 
-                        if (ng.isFunction(hoverCallback)) {
-                            params['hoverCallback'] = hoverCallback;
-                        }
+                        ng.forEach(asFunctions, function (value, key) {
+                            if (ng.isFunction(value)) {
+                                params[key] = value;
+                            }
+                        });
 
                         ng.forEach(additional, function (value, key) {
                             if (ng.isDefined(value)) {
@@ -82,6 +87,89 @@
                         });
 
                         M.b(params);
+                    }
+
+                };
+            }
+        ]
+    );
+
+    app.directive(
+        'lineChart',
+        [
+            "$parse", "Morris",
+            function ($parse, M)
+            {
+                return {
+                    restrict: 'AE',
+                    template: '<div></div>',
+                    replace: true,
+                    link: function($scope, element, attribiutes) {
+                        var additional = {
+                                lineWidth: attribiutes.lineWidth,
+
+                                gridTextColor: attribiutes.gridTextColor,
+                                gridTextSize: attribiutes.gridtextsize,
+                                gridTextFamily: attribiutes.gridTextFamily,
+                                gridTextWeight: attribiutes.gridTextWeight,
+                                fillOpacity: attribiutes.fillOpacity,
+                                resize: parseValues(attribiutes.resize),
+
+                                goalStrokeWidth: attribiutes.goalStrokeWidth,
+                                goalLineColors: attribiutes.goalLineColors,
+
+                                eventStrokeWidth: attribiutes.eventStrokeWidth,
+                                eventLineColors: attribiutes.eventLineColors,
+
+                                continuousLine: parseValues(attribiutes.continuousLine)
+                            },
+                            asFunctions = {
+                                hoverCallback: $parse(attribiutes.hoverCallback)($scope),
+                                dateFormat: $parse(attribiutes.dateFormat)($scope),
+                                xLabelFormat: $parse(attribiutes.xLabelFormat)($scope)
+                            },
+                            params = {
+                                element: element,
+                                data: $parse(attribiutes.data)($scope),
+                                xkey: attribiutes.xkey,
+                                ykeys: $parse(attribiutes.ykeys)($scope),
+                                labels: $parse(attribiutes.labels)($scope),
+
+                                lineColors: $parse(attribiutes.lineColors)($scope),
+                                lineWidth: attribiutes.lineWidth,
+                                pointSize: attribiutes.pointSize,
+                                pointFillColors: $parse(attribiutes.pointFillColors)($scope),
+                                pointStrokeColors: attribiutes.pointStrokeColors,
+                                ymax: attribiutes.ymax,
+                                ymin: attribiutes.ymin,
+                                smooth: parseValues(attribiutes.smooth),
+                                hideHover: parseValues(attribiutes.hidehover, ['always', 'auto']),
+                                parseTime: parseValues(attribiutes.parseTime),
+                                postUnits: attribiutes.postUnits,
+                                preUnits: attribiutes.preUnits,
+                                xLabels: attribiutes.xLabels,
+                                xLabelAngle: attribiutes.xLabelAngle,
+
+                                goals: $parse(attribiutes.goals)($scope),
+                                events: $parse(attribiutes.events)($scope),
+
+                                axes: parseValues(attribiutes.axes),
+                                grid: parseValues(attribiutes.grid)
+                            };
+
+                        ng.forEach(asFunctions, function (value, key) {
+                            if (ng.isFunction(value)) {
+                                params[key] = value;
+                            }
+                        });
+
+                        ng.forEach(additional, function (value, key) {
+                            if (ng.isDefined(value)) {
+                                params[key] = value;
+                            }
+                        });
+
+                        M.l(params);
                     }
 
                 };
