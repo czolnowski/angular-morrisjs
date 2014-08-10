@@ -141,6 +141,17 @@
 
                     return params;
                 };
+
+                this.addCallbackForGraph = function (attribiutes, $scope, graph)
+                {
+                    if (ng.isDefined(attribiutes.setGraph)) {
+                        var setGraphCallback = $parse(attribiutes.dateFormat)($scope);
+
+                        if (ng.isFunction(setGraphCallback)) {
+                            setGraphCallback(graph);
+                        }
+                    }
+                };
             }
         ]
     );
@@ -159,7 +170,8 @@
                         var params = {
                             barColors: $parse(attribiutes.barColors)($scope),
                             stacked: MorrisOptionsParser.parseValues(attribiutes.stacked)
-                        };
+                        },
+                            graph;
 
                         ng.extend(
                             params,
@@ -168,7 +180,8 @@
                             MorrisOptionsParser.getGridOptions(attribiutes)
                         );
 
-                        M.b(MorrisOptionsParser.parse(params));
+                        graph = M.b(MorrisOptionsParser.parse(params));
+                        MorrisOptionsParser.addCallbackForGraph(attribiutes, $scope, graph);
                     }
                 };
             }
@@ -186,7 +199,8 @@
                     template: '<div></div>',
                     replace: true,
                     link: function($scope, element, attribiutes) {
-                        var params = {};
+                        var params = {},
+                            graph;
 
                         ng.extend(
                             params,
@@ -196,7 +210,8 @@
                             MorrisOptionsParser.getLinesOptions(attribiutes, $scope)
                         );
 
-                        M.l(MorrisOptionsParser.parse(params));
+                        graph = M.l(MorrisOptionsParser.parse(params));
+                        MorrisOptionsParser.addCallbackForGraph(attribiutes, $scope, graph);
                     }
 
                 };
@@ -217,7 +232,8 @@
                     link: function($scope, element, attribiutes) {
                         var params = {
                             behaveLikeLine: MorrisOptionsParser.parseValues(attribiutes.behaveLikeLine)
-                        };
+                        },
+                            graph;
 
                         ng.extend(
                             params,
@@ -227,7 +243,8 @@
                             MorrisOptionsParser.getLinesOptions(attribiutes, $scope)
                         );
 
-                        M.a(MorrisOptionsParser.parse(params));
+                        graph = M.a(MorrisOptionsParser.parse(params));
+                        MorrisOptionsParser.addCallbackForGraph(attribiutes, $scope, graph);
                     }
 
                 };
@@ -251,14 +268,16 @@
                             asFunctions: {
                                 formatter: $parse(attribiutes.formatter)($scope)
                             }
-                        };
+                        },
+                            graph;
 
                         ng.extend(
                             params,
                             MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope)
                         );
 
-                        M.d(MorrisOptionsParser.parse(params));
+                        graph = M.d(MorrisOptionsParser.parse(params));
+                        MorrisOptionsParser.addCallbackForGraph(attribiutes, $scope, graph);
                     }
 
                 };
