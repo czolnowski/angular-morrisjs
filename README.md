@@ -32,6 +32,15 @@ And add directive with visualization:
 <donut-chart data="data"></donut-chart>
 ```
 
+## Changelog
+
+__v.1.1.0__
+- remove unused parseValues function
+- add callback to set graph into your scope
+
+__v.1.0.0__
+- integration for all morris visualization and compatibility with morrisjs *0.5.1*
+
 ## Development
 * install node modules ```npm install```
 * install gulp globally ```npm install -g gulp```
