@@ -1,7 +1,21 @@
 (function (ng, Morris, undefined) {
     'use strict';
 
-    var app = ng.module('angular-morrisjs', []);
+    var app = ng.module('angular-morrisjs', []),
+        extendDeep = function (dst) {
+            angular.forEach(arguments, function(obj) {
+                if (obj !== dst) {
+                    angular.forEach(obj, function(value, key) {
+                        if (dst[key] && dst[key].constructor && dst[key].constructor === Object) {
+                            extendDeep(dst[key], value);
+                        } else {
+                            dst[key] = value;
+                        }
+                    });
+                }
+            });
+            return dst;
+        };
 
     app.factory(
        'Morris',
@@ -173,7 +187,7 @@
                         },
                             graph;
 
-                        ng.extend(
+                        extendDeep(
                             params,
                             MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope),
                             MorrisOptionsParser.getValuesOptions(attribiutes, $scope),
@@ -202,7 +216,7 @@
                         var params = {},
                             graph;
 
-                        ng.extend(
+                        extendDeep(
                             params,
                             MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope),
                             MorrisOptionsParser.getValuesOptions(attribiutes, $scope),
@@ -235,7 +249,7 @@
                         },
                             graph;
 
-                        ng.extend(
+                        extendDeep(
                             params,
                             MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope),
                             MorrisOptionsParser.getValuesOptions(attribiutes, $scope),
@@ -271,7 +285,7 @@
                         },
                             graph;
 
-                        ng.extend(
+                        extendDeep(
                             params,
                             MorrisOptionsParser.getBasicOptions(element, attribiutes, $scope)
                         );

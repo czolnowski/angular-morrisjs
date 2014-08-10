@@ -34,6 +34,12 @@ And add directive with visualization:
 
 ## Changelog
 
+__v.1.1.3__
+- add extendDeep to propagate embedded options
+
+__v.1.1.2__
+- fix literal in setGraph feature
+
 __v.1.1.1__
 - add missing dist
 
