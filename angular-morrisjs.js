@@ -145,7 +145,7 @@
                 this.addCallbackForGraph = function (attribiutes, $scope, graph)
                 {
                     if (ng.isDefined(attribiutes.setGraph)) {
-                        var setGraphCallback = $parse(attribiutes.dateFormat)($scope);
+                        var setGraphCallback = $parse(attribiutes.setGraph)($scope);
 
                         if (ng.isFunction(setGraphCallback)) {
                             setGraphCallback(graph);
