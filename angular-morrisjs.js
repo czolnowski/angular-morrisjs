@@ -1,31 +1,7 @@
 (function (ng, Morris, undefined) {
     'use strict';
 
-    var app = ng.module('angular-morrisjs', []),
-        parseValues = function (value, possibleValues, skipBoolTransform)
-        {
-            if (!ng.isDefined(possibleValues)) {
-                possibleValues = [];
-            }
-
-            if (!ng.isDefined(value)) {
-                return undefined;
-            }
-
-            if (possibleValues.indexOf(value) !== -1) {
-                return value;
-            }
-
-            if (skipBoolTransform !== true) {
-                if (value === "true") {
-                    return true;
-                } else if (value === "false") {
-                    return false;
-                }
-            }
-
-            return undefined;
-        };
+    var app = ng.module('angular-morrisjs', []);
 
     app.factory(
        'Morris',
@@ -121,8 +97,8 @@
                         pointStrokeColors: attribiutes.pointStrokeColors,
                         ymax: attribiutes.ymax,
                         ymin: attribiutes.ymin,
-                        smooth: parseValues(attribiutes.smooth),
-                        parseTime: parseValues(attribiutes.parseTime),
+                        smooth: this.parseValues(attribiutes.smooth),
+                        parseTime: this.parseValues(attribiutes.parseTime),
                         postUnits: attribiutes.postUnits,
                         preUnits: attribiutes.preUnits,
                         xLabels: attribiutes.xLabels,
@@ -140,7 +116,7 @@
                             eventStrokeWidth: attribiutes.eventStrokeWidth,
                             eventLineColors: attribiutes.eventLineColors,
 
-                            continuousLine: parseValues(attribiutes.continuousLine)
+                            continuousLine: this.parseValues(attribiutes.continuousLine)
                         },
                         asFunctions: {
                             dateFormat: $parse(attribiutes.dateFormat)($scope),
@@ -240,7 +216,7 @@
                     replace: true,
                     link: function($scope, element, attribiutes) {
                         var params = {
-                            behaveLikeLine: parseValues(attribiutes.behaveLikeLine)
+                            behaveLikeLine: MorrisOptionsParser.parseValues(attribiutes.behaveLikeLine)
                         };
 
                         ng.extend(
