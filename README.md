@@ -34,6 +34,9 @@ And add directive with visualization:
 
 ## Changelog
 
+__v.1.1.1__
+- add missing dist
+
 __v.1.1.0__
 - remove unused parseValues function
 - add callback to set graph into your scope
